@@ -16,10 +16,12 @@ SPA на Next.js (App Router) для мониторинга духов (ёкае
 - ✅ Настройка SCSS Modules
 - ✅ Базовая структура папок (начальный FSD скелет)
 
-### 1.2 Docker-конфигурация
+### 1.2 Docker-конфигурация ✅
 
-- Создание `Dockerfile`
-- Создание `docker-compose.yml`
+- ✅ Создание `Dockerfile`
+- ✅ Создание `docker-compose.yml`
+- ✅ Настройка `output: 'standalone'` в next.config.mjs
+- ✅ Создание `.dockerignore`
 - Проверка запуска проекта через `docker-compose up`
 
 ---
