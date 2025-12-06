@@ -1,0 +1,54 @@
+// ===== SCSS Variables for TAMS =====
+// These variables can be used in SCSS files via @use
+
+// ===== Breakpoints =====
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+// ===== Z-index scale =====
+$z-index-dropdown: 100;
+$z-index-sticky: 200;
+$z-index-modal: 300;
+$z-index-toast: 400;
+$z-index-tooltip: 500;
+
+// ===== Animation durations =====
+$duration-fast: 150ms;
+$duration-normal: 250ms;
+$duration-slow: 400ms;
+
+// ===== Spacing scale =====
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+$spacing-3xl: 64px;
+
+// ===== Border radius =====
+$radius-xs: 2px;
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 12px;
+$radius-xl: 16px;
+$radius-full: 9999px;
+
+// ===== Container =====
+$container-max-width: 1280px;
+
+// ===== Threat level color map (for iteration) =====
+$threat-levels: (
+  'low': #22c55e,
+  'medium': #f59e0b,
+  'high': #ef4444,
+  'critical': #dc2626,
+);
+
+// ===== Status color map =====
+$status-colors: (
+  'active': #22c55e,
+  'captured': #6b7280,
+);

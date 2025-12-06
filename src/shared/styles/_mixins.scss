@@ -1,0 +1,344 @@
+// ===== SCSS Mixins for TAMS =====
+
+// ===== Flexbox Mixins =====
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// ===== Typography Mixins =====
+
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@mixin heading-style {
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-foreground);
+}
+
+// ===== Interactive Elements =====
+
+@mixin button-reset {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+@mixin interactive-hover {
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// ===== Card Styles =====
+
+@mixin card-base {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+}
+
+@mixin card-interactive {
+  @include card-base;
+  transition: background-color var(--transition-fast),
+    border-color var(--transition-fast), box-shadow var(--transition-fast);
+
+  &:hover {
+    background-color: var(--color-card-bg-hover);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// ===== Badge / Status Indicator =====
+
+@mixin status-badge($color, $bg-color) {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: $color;
+  background-color: $bg-color;
+}
+
+// ===== Threat Level Indicators =====
+
+@mixin threat-indicator($level) {
+  @if $level == 'low' {
+    color: var(--color-threat-low);
+    background-color: var(--color-threat-low-bg);
+  } @else if $level == 'medium' {
+    color: var(--color-threat-medium);
+    background-color: var(--color-threat-medium-bg);
+  } @else if $level == 'high' {
+    color: var(--color-threat-high);
+    background-color: var(--color-threat-high-bg);
+  } @else if $level == 'critical' {
+    color: var(--color-threat-critical);
+    background-color: var(--color-threat-critical-bg);
+  }
+}
+
+// ===== Animations =====
+
+@mixin pulse-animation {
+  animation: pulse 2s infinite;
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+}
+
+@mixin glow-animation($color: var(--color-primary)) {
+  animation: glow 2s ease-in-out infinite alternate;
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 5px $color, 0 0 10px $color;
+    }
+    to {
+      box-shadow: 0 0 10px $color, 0 0 20px $color;
+    }
+  }
+}
+
+@mixin shake-animation {
+  animation: shake 0.5s ease-in-out;
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: translateX(-5px);
+    }
+    20%,
+    40%,
+    60%,
+    80% {
+      transform: translateX(5px);
+    }
+  }
+}
+
+@mixin fade-in {
+  animation: fadeIn var(--transition-normal);
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@mixin slide-in-right {
+  animation: slideInRight var(--transition-normal);
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}
+
+@mixin slide-in-up {
+  animation: slideInUp var(--transition-normal);
+
+  @keyframes slideInUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+// ===== Layout Utilities =====
+
+@mixin container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+@mixin grid($columns: 1, $gap: var(--spacing-md)) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+@mixin responsive-grid($min-width: 300px, $gap: var(--spacing-md)) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
+  gap: $gap;
+}
+
+// ===== Scrollbar Styling =====
+
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--color-background-secondary);
+    border-radius: var(--radius-full);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-card-border);
+    border-radius: var(--radius-full);
+
+    &:hover {
+      background: var(--color-foreground-muted);
+    }
+  }
+}
+
+// ===== Visibility =====
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// ===== Responsive Breakpoints =====
+
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'sm' {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == 'md' {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == 'lg' {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == 'xl' {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  }
+}
+
+@mixin mobile-only {
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @media (min-width: $breakpoint-md) and (max-width: #{$breakpoint-lg - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop-only {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+// ===== Dark Theme Utils (for future use) =====
+
+@mixin dark-theme {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+}
