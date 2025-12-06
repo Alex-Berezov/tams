@@ -1,0 +1,99 @@
+@use '@shared/styles/mixins' as *;
+
+.anomalyCard {
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    transition: background-color var(--transition-fast);
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  // Threat level indicator colors
+  &.threat-low::before {
+    background-color: var(--color-threat-low);
+  }
+
+  &.threat-medium::before {
+    background-color: var(--color-threat-medium);
+  }
+
+  &.threat-high::before {
+    background-color: var(--color-threat-high);
+  }
+
+  &.threat-critical::before {
+    background-color: var(--color-threat-critical);
+    @include glow-animation(var(--color-threat-critical));
+  }
+}
+
+.header {
+  @include flex-between;
+  gap: var(--spacing-sm);
+}
+
+.name {
+  @include heading-style;
+  font-size: var(--font-size-lg);
+  margin: 0;
+  @include text-truncate;
+  flex: 1;
+}
+
+.content {
+  padding-top: var(--spacing-sm);
+}
+
+.info {
+  @include flex-column;
+  gap: var(--spacing-sm);
+}
+
+.infoRow {
+  @include flex-start;
+  gap: var(--spacing-sm);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--color-foreground-muted);
+  min-width: 80px;
+}
+
+.value {
+  font-size: var(--font-size-sm);
+  color: var(--color-foreground);
+}
+
+.footer {
+  @include flex-start;
+  padding-top: var(--spacing-md);
+}
+
+// Animation for threat level change
+@keyframes threatChange {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.threatChanged {
+  animation: threatChange 0.5s ease-in-out;
+}
