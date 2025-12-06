@@ -50,11 +50,11 @@ SPA на Next.js (App Router) для мониторинга духов (ёкае
 - ✅ Badge (для статуса и уровня угрозы)
 - ✅ Notification/Toast компонент
 
-### 3.2 Shared API и типы
+### 3.2 Shared API и типы ✅
 
-- Базовая настройка API клиента (fetch обёртка)
-- Общие типы (`ThreatLevel`, `AnomalyStatus`)
-- Zod-схемы для валидации данных
+- ✅ Базовая настройка API клиента (fetch обёртка)
+- ✅ Общие типы (`ThreatLevel`, `AnomalyStatus`)
+- ✅ Zod-схемы для валидации данных
 
 ### 3.3 Shared стили
 
