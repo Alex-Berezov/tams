@@ -77,23 +77,23 @@ SPA на Next.js (App Router) для мониторинга духов (ёкае
 
 ## Фаза 5: Backend (API Routes)
 
-### 5.1 Mock API — список аномалий
+### 5.1 Mock API — список аномалий ✅
 
-- Route Handler: `GET /api/anomalies`
-- Моковые данные (5-10 духов с разными параметрами)
-- Валидация ответа через Zod
+- ✅ Route Handler: `GET /api/anomalies`
+- ✅ Моковые данные (5-10 духов с разными параметрами)
+- ✅ Валидация ответа через Zod
 
-### 5.2 Mock API — захват духа
+### 5.2 Mock API — захват духа ✅
 
-- Route Handler: `POST /api/anomalies/[id]/capture`
-- Логика 30% вероятности ошибки
-- Корректные HTTP статусы (200/500)
+- ✅ Route Handler: `POST /api/anomalies/[id]/capture`
+- ✅ Логика 30% вероятности ошибки
+- ✅ Корректные HTTP статусы (200/500)
 
-### 5.3 SSE Endpoint для real-time обновлений
+### 5.3 SSE Endpoint для real-time обновлений ✅
 
-- Route Handler: `GET /api/anomalies/stream` (SSE)
-- Логика: каждые 5 сек случайный дух меняет threat level
-- Формат события для клиента
+- ✅ Route Handler: `GET /api/anomalies/stream` (SSE)
+- ✅ Логика: каждые 5 сек случайный дух меняет threat level
+- ✅ Формат события для клиента
 
 ---
 
