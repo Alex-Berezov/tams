@@ -1,5 +1,4 @@
-// Notification container UI components
-
+// NotificationContainer component public API
 export {
   NotificationContainer,
   useNotifications,

@@ -1,0 +1,273 @@
+// NotificationContainer widget styles
+@use '@shared/styles/variables' as *;
+
+.notificationContainer {
+  position: fixed;
+  z-index: $z-index-toast;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  pointer-events: none;
+  max-height: calc(100vh - #{$spacing-xl * 2});
+  overflow: hidden;
+
+  > * {
+    pointer-events: auto;
+  }
+}
+
+// Position variants
+.topRight {
+  top: $spacing-lg;
+  right: $spacing-lg;
+}
+
+.topLeft {
+  top: $spacing-lg;
+  left: $spacing-lg;
+}
+
+.bottomRight {
+  bottom: $spacing-lg;
+  right: $spacing-lg;
+  flex-direction: column-reverse;
+}
+
+.bottomLeft {
+  bottom: $spacing-lg;
+  left: $spacing-lg;
+  flex-direction: column-reverse;
+}
+
+.topCenter {
+  top: $spacing-lg;
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+}
+
+.bottomCenter {
+  bottom: $spacing-lg;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+// Notification item
+.notification {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  min-width: 300px;
+  max-width: 420px;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  font-size: 0.875rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  animation: slideIn $duration-normal ease-out forwards;
+  backdrop-filter: blur(8px);
+}
+
+.notification.exiting {
+  animation: slideOut $duration-fast ease-in forwards;
+}
+
+// Notification types
+.success {
+  background-color: rgba(34, 197, 94, 0.2);
+  border: 1px solid var(--color-success);
+
+  .icon {
+    color: var(--color-success);
+  }
+}
+
+.error {
+  background-color: rgba(239, 68, 68, 0.2);
+  border: 1px solid var(--color-error);
+
+  .icon {
+    color: var(--color-error);
+  }
+}
+
+.warning {
+  background-color: rgba(245, 158, 11, 0.2);
+  border: 1px solid var(--color-warning);
+
+  .icon {
+    color: var(--color-warning);
+  }
+}
+
+.info {
+  background-color: rgba(99, 102, 241, 0.2);
+  border: 1px solid var(--color-primary);
+
+  .icon {
+    color: var(--color-primary);
+  }
+}
+
+// Icon
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.iconSvg {
+  width: 20px;
+  height: 20px;
+}
+
+// Content
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.title {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.message {
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+// Close button
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: $radius-sm;
+  color: var(--color-text-secondary);
+  font-size: 1.25rem;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity $duration-fast, background-color $duration-fast;
+  flex-shrink: 0;
+
+  &:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+// Progress bar for auto-hide
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background-color: currentColor;
+  opacity: 0.5;
+  border-radius: 0 0 $radius-md $radius-md;
+}
+
+// Animations
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+// Animation variants for different positions
+.topLeft,
+.bottomLeft {
+  .notification {
+    animation-name: slideInLeft;
+  }
+
+  .notification.exiting {
+    animation-name: slideOutLeft;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+.topCenter,
+.bottomCenter {
+  .notification {
+    animation-name: slideInCenter;
+  }
+
+  .notification.exiting {
+    animation-name: slideOutCenter;
+  }
+}
+
+@keyframes slideInCenter {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutCenter {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}

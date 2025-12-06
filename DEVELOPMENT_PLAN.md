@@ -116,18 +116,18 @@ SPA на Next.js (App Router) для мониторинга духов (ёкае
 
 ## Фаза 7: Widgets слой
 
-### 7.1 Widget: AnomalyList
+### 7.1 Widget: AnomalyList ✅
 
-- Компонент списка аномалий
-- Интеграция с `useQuery` для получения данных
-- Компоновка карточек
-- Состояния: loading, error, empty
+- ✅ Компонент списка аномалий
+- ✅ Интеграция с `useQuery` для получения данных
+- ✅ Компоновка карточек
+- ✅ Состояния: loading, error, empty
 
-### 7.2 Widget: NotificationContainer
+### 7.2 Widget: NotificationContainer ✅
 
-- Контейнер для показа уведомлений
-- Логика автоскрытия
-- Стили для success/error
+- ✅ Контейнер для показа уведомлений
+- ✅ Логика автоскрытия
+- ✅ Стили для success/error
 
 ---
 
