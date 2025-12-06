@@ -1,4 +1,5 @@
 // Feature: Real-time Updates (SSE)
 // Public API for real-time updates feature
 
-export {}
+// Model - SSE hooks
+export { useAnomalyStream } from './model'

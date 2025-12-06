@@ -1,4 +1,5 @@
 // Feature: Capture Anomaly
 // Public API for capture anomaly feature
 
-export {}
+// Model - hooks and mutations
+export { useCaptureAnomaly, ANOMALIES_QUERY_KEY } from './model'

@@ -99,18 +99,18 @@ SPA на Next.js (App Router) для мониторинга духов (ёкае
 
 ## Фаза 6: Features слой
 
-### 6.1 Feature: Capture Anomaly (Захват духа)
+### 6.1 Feature: Capture Anomaly (Захват духа) ✅
 
-- Хук `useCaptureAnomaly` (TanStack Query mutation)
-- Optimistic Update логика
-- Rollback при ошибке
-- Интеграция с Notification
+- ✅ Хук `useCaptureAnomaly` (TanStack Query mutation)
+- ✅ Optimistic Update логика
+- ✅ Rollback при ошибке
+- ✅ Интеграция с Notification
 
-### 6.2 Feature: Real-time Updates (SSE подписка)
+### 6.2 Feature: Real-time Updates (SSE подписка) ✅
 
-- Хук `useAnomalyStream` (подписка на SSE)
-- Обновление кэша TanStack Query при получении события
-- Автопереподключение при разрыве
+- ✅ Хук `useAnomalyStream` (подписка на SSE)
+- ✅ Обновление кэша TanStack Query при получении события
+- ✅ Автопереподключение при разрыве
 
 ---
 
