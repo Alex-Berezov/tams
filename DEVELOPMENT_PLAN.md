@@ -28,27 +28,27 @@ SPA на Next.js (App Router) для мониторинга духов (ёкае
 
 ## Фаза 2: Архитектура FSD (Feature Sliced Design)
 
-### 2.1 Настройка слоёв FSD
+### 2.1 Настройка слоёв FSD ✅
 
-- Создание структуры папок:
+- ✅ Создание структуры папок:
   - `src/app` — App Router страницы
   - `src/pages` — (не используем, App Router)
   - `src/widgets` — композитные блоки
   - `src/features` — бизнес-фичи
   - `src/entities` — бизнес-сущности
   - `src/shared` — переиспользуемый код
-- Настройка алиасов путей в `tsconfig.json`
+- ✅ Настройка алиасов путей в `tsconfig.json`
 
 ---
 
 ## Фаза 3: Shared слой (базовые компоненты и утилиты)
 
-### 3.1 Shared UI компоненты
+### 3.1 Shared UI компоненты ✅
 
-- Button (с вариантами: primary, danger)
-- Card (контейнер для карточки)
-- Badge (для статуса и уровня угрозы)
-- Notification/Toast компонент
+- ✅ Button (с вариантами: primary, danger)
+- ✅ Card (контейнер для карточки)
+- ✅ Badge (для статуса и уровня угрозы)
+- ✅ Notification/Toast компонент
 
 ### 3.2 Shared API и типы
 
