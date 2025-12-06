@@ -1,5 +1,5 @@
-import type { BadgeVariant } from '@shared/ui';
-import { ThreatLevel, AnomalyStatus } from '../types/anomaly';
+import type { BadgeVariant } from '@shared/ui'
+import { ThreatLevel, AnomalyStatus } from '../types/anomaly'
 
 /**
  * Map ThreatLevel to Badge variant for UI display
@@ -10,8 +10,8 @@ export function getThreatLevelBadgeVariant(level: ThreatLevel): BadgeVariant {
     [ThreatLevel.MEDIUM]: 'warning',
     [ThreatLevel.HIGH]: 'danger',
     [ThreatLevel.CRITICAL]: 'critical',
-  };
-  return variantMap[level];
+  }
+  return variantMap[level]
 }
 
 /**
@@ -21,8 +21,8 @@ export function getStatusBadgeVariant(status: AnomalyStatus): BadgeVariant {
   const variantMap: Record<AnomalyStatus, BadgeVariant> = {
     [AnomalyStatus.ACTIVE]: 'success',
     [AnomalyStatus.CAPTURED]: 'muted',
-  };
-  return variantMap[status];
+  }
+  return variantMap[status]
 }
 
 /**
@@ -34,8 +34,8 @@ export function formatThreatLevel(level: ThreatLevel): string {
     [ThreatLevel.MEDIUM]: 'Medium',
     [ThreatLevel.HIGH]: 'High',
     [ThreatLevel.CRITICAL]: 'Critical',
-  };
-  return labelMap[level];
+  }
+  return labelMap[level]
 }
 
 /**
@@ -45,6 +45,6 @@ export function formatAnomalyStatus(status: AnomalyStatus): string {
   const labelMap: Record<AnomalyStatus, string> = {
     [AnomalyStatus.ACTIVE]: 'Active',
     [AnomalyStatus.CAPTURED]: 'Captured',
-  };
-  return labelMap[status];
+  }
+  return labelMap[status]
 }

@@ -12,7 +12,7 @@ export {
   apiErrorResponseSchema,
   threatLevelChangeEventSchema,
   captureAnomalyResponseSchema,
-} from './anomaly';
+} from './anomaly'
 
 export type {
   Anomaly,
@@ -22,4 +22,4 @@ export type {
   ThreatLevelChangeEvent,
   CaptureAnomalyRequest,
   CaptureAnomalyResponse,
-} from './anomaly';
+} from './anomaly'

@@ -5,4 +5,4 @@ export {
   getStatusBadgeVariant,
   formatThreatLevel,
   formatAnomalyStatus,
-} from './anomaly-helpers';
+} from './anomaly-helpers'
