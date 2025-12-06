@@ -2,7 +2,7 @@
 
 'use client'
 
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useCallback, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import {
   Anomaly,
@@ -59,6 +59,7 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
   const eventSourceRef = useRef<EventSource | null>(null)
   const reconnectAttemptsRef = useRef(0)
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const [isConnected, setIsConnected] = useState(false)
 
   /**
    * Обработка SSE события изменения уровня угрозы
@@ -103,6 +104,7 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
       eventSource.onopen = () => {
         // Сбрасываем счётчик попыток при успешном подключении
         reconnectAttemptsRef.current = 0
+        setIsConnected(true)
       }
 
       eventSource.onmessage = (event) => {
@@ -134,6 +136,7 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
         // Закрываем соединение
         eventSource.close()
         eventSourceRef.current = null
+        setIsConnected(false)
 
         // Пробуем переподключиться
         if (reconnectAttemptsRef.current < maxReconnectAttempts) {
@@ -164,6 +167,7 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
     }
 
     reconnectAttemptsRef.current = 0
+    setIsConnected(false)
   }, [])
 
   /**
@@ -183,6 +187,8 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
   }, [enabled, connect, disconnect])
 
   return {
+    /** Статус подключения */
+    isConnected,
     /** Переподключиться вручную */
     reconnect: () => {
       disconnect()

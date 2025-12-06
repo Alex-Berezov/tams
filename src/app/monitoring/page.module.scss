@@ -1,0 +1,122 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+
+.monitoringPage {
+  min-height: 100vh;
+  background: linear-gradient(135deg, $bg-color 0%, darken($bg-color, 3%) 100%);
+  padding: $spacing-lg;
+
+  @media (max-width: $breakpoint-sm) {
+    padding: $spacing-md;
+  }
+}
+
+.header {
+  max-width: 1400px;
+  margin: 0 auto $spacing-xl;
+  padding-bottom: $spacing-lg;
+  border-bottom: 1px solid rgba($border-color, 0.5);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.title {
+  font-size: $font-size-2xl;
+  font-weight: 700;
+  color: $text-primary;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-xl;
+  }
+}
+
+.titleIcon {
+  width: 36px;
+  height: 36px;
+  color: $primary-color;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-xs $spacing-sm;
+  background-color: rgba($success-color, 0.1);
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  color: $success-color;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  background-color: $success-color;
+  border-radius: 50%;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+.statusDotDisconnected {
+  background-color: $danger-color;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.subtitle {
+  font-size: $font-size-base;
+  color: $text-secondary;
+  margin: 0;
+  max-width: 600px;
+}
+
+.content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0 0 $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.sectionIcon {
+  width: 20px;
+  height: 20px;
+  color: $primary-color;
+}
