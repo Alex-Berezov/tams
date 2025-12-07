@@ -1,9 +1,10 @@
-@use '@shared/styles/variables' as *;
-@use '@shared/styles/mixins' as *;
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+@use 'sass:color';
 
 .monitoringPage {
   min-height: 100vh;
-  background: linear-gradient(135deg, $bg-color 0%, darken($bg-color, 3%) 100%);
+  background: linear-gradient(135deg, $bg-color 0%, color.adjust($bg-color, $lightness: -3%) 100%);
   padding: $spacing-lg;
 
   @media (max-width: $breakpoint-sm) {

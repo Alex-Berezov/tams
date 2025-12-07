@@ -9,6 +9,8 @@ import { mockAnomalies } from '../route'
  */
 export async function GET() {
   const encoder = new TextEncoder()
+  let intervalId: NodeJS.Timeout | null = null
+  let isClosed = false
 
   const stream = new ReadableStream({
     start(controller) {
@@ -20,7 +22,16 @@ export async function GET() {
       controller.enqueue(encoder.encode(connectMessage))
 
       // Интервал для отправки обновлений каждые 5 секунд
-      const intervalId = setInterval(() => {
+      intervalId = setInterval(() => {
+        // Проверяем, не закрыт ли поток
+        if (isClosed) {
+          if (intervalId) {
+            clearInterval(intervalId)
+            intervalId = null
+          }
+          return
+        }
+
         try {
           // Выбираем случайного активного духа
           const activeAnomalies = mockAnomalies.filter(
@@ -70,21 +81,18 @@ export async function GET() {
 
           const message = `data: ${JSON.stringify(event)}\n\n`
           controller.enqueue(encoder.encode(message))
-        } catch (error) {
-          console.error('SSE stream error:', error)
-          // Не закрываем поток при ошибке, продолжаем работу
+        } catch {
+          // Игнорируем ошибки записи в закрытый поток
         }
       }, 5000)
-
-      // Очистка при закрытии соединения
-      // Примечание: ReadableStream не имеет прямого способа отследить отключение клиента,
-      // но интервал будет очищен при сборке мусора или перезапуске сервера
-      return () => {
-        clearInterval(intervalId)
-      }
     },
     cancel() {
       // Вызывается при отмене потока клиентом
+      isClosed = true
+      if (intervalId) {
+        clearInterval(intervalId)
+        intervalId = null
+      }
       console.log('SSE connection closed by client')
     },
   })

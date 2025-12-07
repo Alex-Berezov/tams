@@ -1,6 +1,26 @@
 // ===== SCSS Variables for TAMS =====
 // These variables can be used in SCSS files via @use
 
+// ===== Base Colors =====
+$bg-color: #0a0a0a;
+$bg-secondary: #111111;
+$text-primary: #ededed;
+$text-secondary: #a1a1a1;
+$border-color: #2a2a2a;
+
+// ===== Brand Colors =====
+$primary-color: #6366f1;
+$primary-hover: #4f46e5;
+$success-color: #22c55e;
+$danger-color: #ef4444;
+$warning-color: #f59e0b;
+$info-color: #3b82f6;
+
+// ===== Card Colors =====
+$card-bg: #1a1a1a;
+$card-bg-hover: #222222;
+$card-border: #2a2a2a;
+
 // ===== Breakpoints =====
 $breakpoint-sm: 640px;
 $breakpoint-md: 768px;
@@ -38,6 +58,16 @@ $radius-full: 9999px;
 
 // ===== Container =====
 $container-max-width: 1280px;
+
+// ===== Font sizes =====
+$font-size-xs: 0.75rem;   // 12px
+$font-size-sm: 0.875rem;  // 14px
+$font-size-base: 1rem;    // 16px
+$font-size-md: 1rem;      // 16px
+$font-size-lg: 1.125rem;  // 18px
+$font-size-xl: 1.5rem;    // 24px
+$font-size-2xl: 2rem;     // 32px
+$font-size-3xl: 2.5rem;   // 40px
 
 // ===== Threat level color map (for iteration) =====
 $threat-levels: (

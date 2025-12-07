@@ -1,6 +1,6 @@
 // AnomalyList widget styles
-@use '@shared/styles/variables' as *;
-@use '@shared/styles/mixins' as *;
+@use '../../../../shared/styles/variables' as *;
+@use '../../../../shared/styles/mixins' as *;
 
 .anomalyList {
   display: flex;

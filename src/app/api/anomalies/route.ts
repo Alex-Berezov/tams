@@ -92,10 +92,8 @@ export async function GET() {
     // Валидация данных через Zod перед отправкой
     const validatedData = anomaliesArraySchema.parse(mockAnomalies)
 
-    return NextResponse.json({
-      success: true,
-      data: validatedData,
-    })
+    // Возвращаем массив напрямую для совместимости с клиентом
+    return NextResponse.json(validatedData)
   } catch (error) {
     console.error('Validation error:', error)
     return NextResponse.json(

@@ -1,4 +1,5 @@
 // ===== SCSS Mixins for TAMS =====
+@use './variables' as vars;
 
 // ===== Flexbox Mixins =====
 
@@ -291,46 +292,42 @@
 }
 
 // ===== Responsive Breakpoints =====
-
-$breakpoint-sm: 640px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 1024px;
-$breakpoint-xl: 1280px;
+// Note: Breakpoint variables are imported from _variables.scss at the top
 
 @mixin respond-to($breakpoint) {
   @if $breakpoint == 'sm' {
-    @media (min-width: $breakpoint-sm) {
+    @media (min-width: vars.$breakpoint-sm) {
       @content;
     }
   } @else if $breakpoint == 'md' {
-    @media (min-width: $breakpoint-md) {
+    @media (min-width: vars.$breakpoint-md) {
       @content;
     }
   } @else if $breakpoint == 'lg' {
-    @media (min-width: $breakpoint-lg) {
+    @media (min-width: vars.$breakpoint-lg) {
       @content;
     }
   } @else if $breakpoint == 'xl' {
-    @media (min-width: $breakpoint-xl) {
+    @media (min-width: vars.$breakpoint-xl) {
       @content;
     }
   }
 }
 
 @mixin mobile-only {
-  @media (max-width: #{$breakpoint-md - 1px}) {
+  @media (max-width: #{vars.$breakpoint-md - 1px}) {
     @content;
   }
 }
 
 @mixin tablet-only {
-  @media (min-width: $breakpoint-md) and (max-width: #{$breakpoint-lg - 1px}) {
+  @media (min-width: vars.$breakpoint-md) and (max-width: #{vars.$breakpoint-lg - 1px}) {
     @content;
   }
 }
 
 @mixin desktop-only {
-  @media (min-width: $breakpoint-lg) {
+  @media (min-width: vars.$breakpoint-lg) {
     @content;
   }
 }

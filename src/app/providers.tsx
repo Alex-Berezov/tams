@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState, type ReactNode } from 'react'
 import { NotificationContainer } from '@widgets/notification-container'
+import { ToastProvider } from '@shared/ui'
 
 interface ProvidersProps {
   children: ReactNode
@@ -39,9 +40,11 @@ export function Providers({ children }: ProvidersProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NotificationContainer position='top-right'>
-        {children}
-      </NotificationContainer>
+      <ToastProvider>
+        <NotificationContainer position='top-right'>
+          {children}
+        </NotificationContainer>
+      </ToastProvider>
     </QueryClientProvider>
   )
 }

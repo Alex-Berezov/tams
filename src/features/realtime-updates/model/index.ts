@@ -60,9 +60,23 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
   const reconnectAttemptsRef = useRef(0)
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [isConnected, setIsConnected] = useState(false)
+  
+  // Храним callbacks в refs, чтобы избежать пересоздания эффекта
+  const onThreatLevelChangeRef = useRef(onThreatLevelChange)
+  const queryClientRef = useRef(queryClient)
+  
+  // Обновляем refs при изменении
+  useEffect(() => {
+    onThreatLevelChangeRef.current = onThreatLevelChange
+  }, [onThreatLevelChange])
+  
+  useEffect(() => {
+    queryClientRef.current = queryClient
+  }, [queryClient])
 
   /**
    * Обработка SSE события изменения уровня угрозы
+   * Использует refs для избежания пересоздания функции
    */
   const handleThreatLevelChange = useCallback(
     (
@@ -71,8 +85,8 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
         previousThreatLevel?: ThreatLevel
       }
     ) => {
-      // Обновляем кэш TanStack Query
-      queryClient.setQueryData<Anomaly[]>(ANOMALIES_QUERY_KEY, (old) => {
+      // Обновляем кэш TanStack Query через ref
+      queryClientRef.current.setQueryData<Anomaly[]>(ANOMALIES_QUERY_KEY, (old) => {
         if (!old) return old
         return old.map((anomaly) =>
           anomaly.id === event.anomalyId
@@ -81,76 +95,11 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
         )
       })
 
-      // Вызываем callback, если передан
-      onThreatLevelChange?.(event)
+      // Вызываем callback, если передан (через ref)
+      onThreatLevelChangeRef.current?.(event)
     },
-    [queryClient, onThreatLevelChange]
+    [] // Пустые зависимости - используем refs
   )
-
-  /**
-   * Подключение к SSE
-   */
-  const connect = useCallback(() => {
-    // Не подключаемся, если отключено или уже есть соединение
-    if (!enabled || eventSourceRef.current) return
-
-    // Проверка на клиентскую среду
-    if (typeof window === 'undefined') return
-
-    try {
-      const eventSource = new EventSource('/api/anomalies/stream')
-      eventSourceRef.current = eventSource
-
-      eventSource.onopen = () => {
-        // Сбрасываем счётчик попыток при успешном подключении
-        reconnectAttemptsRef.current = 0
-        setIsConnected(true)
-      }
-
-      eventSource.onmessage = (event) => {
-        try {
-          const data: SSEEvent = JSON.parse(event.data)
-
-          // Обрабатываем событие изменения уровня угрозы
-          if (data.type === 'threat_level_change') {
-            // Валидируем данные через Zod
-            const validatedBase = threatLevelChangeEventSchema.safeParse(data)
-
-            if (validatedBase.success) {
-              handleThreatLevelChange({
-                ...validatedBase.data,
-                anomalyName: data.anomalyName as string | undefined,
-                previousThreatLevel: data.previousThreatLevel as
-                  | ThreatLevel
-                  | undefined,
-              })
-            }
-          }
-          // Другие типы событий (connected, info) можно логировать или игнорировать
-        } catch (parseError) {
-          console.error('Failed to parse SSE event:', parseError)
-        }
-      }
-
-      eventSource.onerror = () => {
-        // Закрываем соединение
-        eventSource.close()
-        eventSourceRef.current = null
-        setIsConnected(false)
-
-        // Пробуем переподключиться
-        if (reconnectAttemptsRef.current < maxReconnectAttempts) {
-          reconnectAttemptsRef.current++
-
-          reconnectTimeoutRef.current = setTimeout(() => {
-            connect()
-          }, reconnectDelay)
-        }
-      }
-    } catch (error) {
-      console.error('Failed to create EventSource:', error)
-    }
-  }, [enabled, reconnectDelay, maxReconnectAttempts, handleThreatLevelChange])
 
   /**
    * Отключение от SSE
@@ -172,31 +121,107 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
 
   /**
    * Эффект для управления подключением
+   * Зависимости минимизированы для избежания бесконечных циклов
    */
   useEffect(() => {
-    if (enabled) {
-      connect()
-    } else {
-      disconnect()
+    // Проверка на клиентскую среду
+    if (typeof window === 'undefined') return
+    if (!enabled) return
+
+    let isMounted = true
+    let localEventSource: EventSource | null = null
+    let localReconnectTimeout: NodeJS.Timeout | null = null
+    let localReconnectAttempts = 0
+
+    const connectSSE = () => {
+      // Не подключаемся, если уже есть соединение или компонент размонтирован
+      if (!isMounted || localEventSource) return
+
+      try {
+        const eventSource = new EventSource('/api/anomalies/stream')
+        localEventSource = eventSource
+        eventSourceRef.current = eventSource
+
+        eventSource.onopen = () => {
+          if (!isMounted) return
+          localReconnectAttempts = 0
+          reconnectAttemptsRef.current = 0
+          setIsConnected(true)
+        }
+
+        eventSource.onmessage = (event) => {
+          if (!isMounted) return
+          try {
+            const data: SSEEvent = JSON.parse(event.data)
+
+            if (data.type === 'threat_level_change') {
+              const validatedBase = threatLevelChangeEventSchema.safeParse(data)
+
+              if (validatedBase.success) {
+                handleThreatLevelChange({
+                  ...validatedBase.data,
+                  anomalyName: data.anomalyName as string | undefined,
+                  previousThreatLevel: data.previousThreatLevel as ThreatLevel | undefined,
+                })
+              }
+            }
+          } catch (parseError) {
+            console.error('Failed to parse SSE event:', parseError)
+          }
+        }
+
+        eventSource.onerror = () => {
+          if (!isMounted) return
+          
+          // Закрываем соединение
+          eventSource.close()
+          localEventSource = null
+          eventSourceRef.current = null
+          setIsConnected(false)
+
+          // Пробуем переподключиться
+          if (localReconnectAttempts < maxReconnectAttempts) {
+            localReconnectAttempts++
+            reconnectAttemptsRef.current = localReconnectAttempts
+
+            localReconnectTimeout = setTimeout(() => {
+              if (isMounted) {
+                connectSSE()
+              }
+            }, reconnectDelay)
+            reconnectTimeoutRef.current = localReconnectTimeout
+          }
+        }
+      } catch (error) {
+        console.error('Failed to create EventSource:', error)
+      }
     }
+
+    connectSSE()
 
     // Очистка при размонтировании
     return () => {
-      disconnect()
+      isMounted = false
+      
+      if (localReconnectTimeout) {
+        clearTimeout(localReconnectTimeout)
+      }
+      
+      if (localEventSource) {
+        localEventSource.close()
+      }
+      
+      eventSourceRef.current = null
+      reconnectTimeoutRef.current = null
+      setIsConnected(false)
     }
-  }, [enabled, connect, disconnect])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enabled, reconnectDelay, maxReconnectAttempts])
 
   return {
     /** Статус подключения */
     isConnected,
-    /** Переподключиться вручную */
-    reconnect: () => {
-      disconnect()
-      connect()
-    },
     /** Отключиться */
     disconnect,
-    /** Подключиться */
-    connect,
   }
 }
