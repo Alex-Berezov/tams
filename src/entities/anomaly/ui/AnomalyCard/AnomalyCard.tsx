@@ -1,5 +1,7 @@
 'use client'
 
+import type { FC } from 'react'
+
 import {
   Badge,
   Card,
@@ -14,7 +16,8 @@ import {
   formatThreatLevel,
   formatAnomalyStatus,
 } from '@shared/lib'
-import type { Anomaly, AnomalyStatus } from '@shared/types'
+import type { Anomaly } from '@shared/types'
+
 import styles from './AnomalyCard.module.scss'
 
 export interface AnomalyCardProps {
@@ -23,11 +26,11 @@ export interface AnomalyCardProps {
   isCapturing?: boolean
 }
 
-export const AnomalyCard: React.FC<AnomalyCardProps> = ({
-  anomaly,
-  onCapture,
-  isCapturing = false,
-}) => {
+/**
+ * Card component displaying anomaly (spirit) information with capture action
+ */
+export const AnomalyCard: FC<AnomalyCardProps> = (props) => {
+  const { anomaly, onCapture, isCapturing = false } = props
   const { id, name, threatLevel, location, status } = anomaly
   const isActive = status === 'active'
 

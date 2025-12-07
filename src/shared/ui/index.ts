@@ -17,6 +17,10 @@ export type {
 export { Badge } from './Badge'
 export type { BadgeProps, BadgeVariant } from './Badge'
 
+// Icons
+export { SuccessIcon, ErrorIcon, WarningIcon, InfoIcon } from './Icons'
+export type { IconProps } from './Icons'
+
 // Toast
 export { Toast, ToastProvider, useToast } from './Toast'
 export type { ToastProps, ToastType, ToastItem } from './Toast'

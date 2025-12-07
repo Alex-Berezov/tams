@@ -1,20 +1,25 @@
 'use client'
 
+import type { FC } from 'react'
+
 import { useQuery } from '@tanstack/react-query'
+
 import { get } from '@shared/api'
 import { AnomalyCard } from '@entities/anomaly'
 import { useCaptureAnomaly } from '@features/capture-anomaly'
 import { ANOMALIES_QUERY_KEY } from '@shared/config'
 import { Button } from '@shared/ui'
-import { Anomaly, anomaliesArraySchema } from '@shared/types'
+import type { Anomaly } from '@shared/types'
+import { anomaliesArraySchema } from '@shared/types'
+
 import styles from './AnomalyList.module.scss'
 
 /**
- * Функция для загрузки списка аномалий
+ * Fetch anomalies list from API
  */
-async function fetchAnomalies(): Promise<Anomaly[]> {
+const fetchAnomalies = async (): Promise<Anomaly[]> => {
   const response = await get<Anomaly[]>('/api/anomalies')
-  // Валидация через Zod
+  // Validate with Zod
   return anomaliesArraySchema.parse(response)
 }
 
@@ -25,10 +30,12 @@ export interface AnomalyListProps {
 /**
  * Widget: AnomalyList
  *
- * Отображает список аномалий (духов) с возможностью захвата.
- * Включает состояния: loading, error, empty.
+ * Displays list of anomalies (spirits) with capture capability.
+ * Includes states: loading, error, empty.
  */
-export const AnomalyList: React.FC<AnomalyListProps> = ({ className }) => {
+export const AnomalyList: FC<AnomalyListProps> = (props) => {
+  const { className } = props
+
   const {
     data: anomalies,
     isLoading,
@@ -38,7 +45,7 @@ export const AnomalyList: React.FC<AnomalyListProps> = ({ className }) => {
   } = useQuery({
     queryKey: ANOMALIES_QUERY_KEY,
     queryFn: fetchAnomalies,
-    staleTime: 30000, // 30 секунд
+    staleTime: 30000, // 30 seconds
     refetchOnWindowFocus: false,
   })
 

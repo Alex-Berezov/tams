@@ -1,12 +1,10 @@
 // NotificationContainer component public API
-export {
-  NotificationContainer,
-  useNotifications,
-} from './NotificationContainer'
+export { NotificationContainer } from './NotificationContainer'
+export { useNotifications } from './context'
 export type {
   NotificationContainerProps,
   Notification,
   NotificationType,
   NotificationPosition,
   NotificationOptions,
-} from './NotificationContainer'
+} from './types'

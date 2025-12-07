@@ -14,10 +14,10 @@ const DEFAULT_TIMEOUT = 10000
 /**
  * Base API client with fetch wrapper
  */
-export async function apiClient<T>(
+export const apiClient = async <T>(
   endpoint: string,
   config: RequestConfig = {}
-): Promise<T> {
+): Promise<T> => {
   const { timeout = DEFAULT_TIMEOUT, ...fetchConfig } = config
 
   const controller = new AbortController()
@@ -69,18 +69,21 @@ export async function apiClient<T>(
 /**
  * GET request helper
  */
-export function get<T>(endpoint: string, config?: RequestConfig): Promise<T> {
+export const get = <T>(
+  endpoint: string,
+  config?: RequestConfig
+): Promise<T> => {
   return apiClient<T>(endpoint, { ...config, method: 'GET' })
 }
 
 /**
  * POST request helper
  */
-export function post<T>(
+export const post = <T>(
   endpoint: string,
   body?: unknown,
   config?: RequestConfig
-): Promise<T> {
+): Promise<T> => {
   return apiClient<T>(endpoint, {
     ...config,
     method: 'POST',

@@ -1,3 +1,5 @@
+import type { FC, ReactNode } from 'react'
+
 import styles from './Badge.module.scss'
 
 export type BadgeVariant =
@@ -10,15 +12,16 @@ export type BadgeVariant =
 
 export interface BadgeProps {
   variant?: BadgeVariant
-  children: React.ReactNode
+  children: ReactNode
   className?: string
 }
 
-export const Badge: React.FC<BadgeProps> = ({
-  variant = 'default',
-  children,
-  className,
-}) => {
+/**
+ * Badge component for status and label display
+ */
+export const Badge: FC<BadgeProps> = (props) => {
+  const { variant = 'default', children, className } = props
+
   return (
     <span className={`${styles.badge} ${styles[variant]} ${className || ''}`}>
       {children}

@@ -1,9 +1,17 @@
 'use client'
 
+import type { FC } from 'react'
 import { useEffect } from 'react'
+
 import styles from './Toast.module.scss'
 
-export type ToastType = 'success' | 'error' | 'info'
+export const ToastType = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+  INFO: 'info',
+} as const
+
+export type ToastType = (typeof ToastType)[keyof typeof ToastType]
 
 export interface ToastProps {
   id: string
@@ -13,13 +21,28 @@ export interface ToastProps {
   onClose: (id: string) => void
 }
 
-export const Toast: React.FC<ToastProps> = ({
-  id,
-  type,
-  message,
-  duration = 4000,
-  onClose,
-}) => {
+/**
+ * Get icon for toast type
+ */
+const getIcon = (type: ToastType): string => {
+  switch (type) {
+    case ToastType.SUCCESS:
+      return '✓'
+    case ToastType.ERROR:
+      return '✕'
+    case ToastType.INFO:
+      return 'ℹ'
+    default:
+      return ''
+  }
+}
+
+/**
+ * Toast notification component with auto-dismiss
+ */
+export const Toast: FC<ToastProps> = (props) => {
+  const { id, type, message, duration = 4000, onClose } = props
+
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose(id)
@@ -41,17 +64,4 @@ export const Toast: React.FC<ToastProps> = ({
       </button>
     </div>
   )
-}
-
-function getIcon(type: ToastType): string {
-  switch (type) {
-    case 'success':
-      return '✓'
-    case 'error':
-      return '✕'
-    case 'info':
-      return 'ℹ'
-    default:
-      return ''
-  }
 }

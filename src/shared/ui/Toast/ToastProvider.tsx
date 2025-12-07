@@ -1,12 +1,8 @@
 'use client'
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  type ReactNode,
-} from 'react'
+import type { FC, ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback } from 'react'
+
 import { Toast, type ToastType } from './Toast'
 import styles from './ToastContainer.module.scss'
 
@@ -22,6 +18,9 @@ interface ToastContextValue {
 
 const ToastContext = createContext<ToastContextValue | null>(null)
 
+/**
+ * Hook to access toast notifications
+ */
 export const useToast = (): ToastContextValue => {
   const context = useContext(ToastContext)
   if (!context) {
@@ -34,7 +33,11 @@ interface ToastProviderProps {
   children: ReactNode
 }
 
-export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
+/**
+ * Toast provider component for notification system
+ */
+export const ToastProvider: FC<ToastProviderProps> = (props) => {
+  const { children } = props
   const [toasts, setToasts] = useState<ToastItem[]>([])
 
   const showToast = useCallback((type: ToastType, message: string) => {
