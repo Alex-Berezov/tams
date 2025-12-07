@@ -60,16 +60,16 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
   const reconnectAttemptsRef = useRef(0)
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [isConnected, setIsConnected] = useState(false)
-  
+
   // Храним callbacks в refs, чтобы избежать пересоздания эффекта
   const onThreatLevelChangeRef = useRef(onThreatLevelChange)
   const queryClientRef = useRef(queryClient)
-  
+
   // Обновляем refs при изменении
   useEffect(() => {
     onThreatLevelChangeRef.current = onThreatLevelChange
   }, [onThreatLevelChange])
-  
+
   useEffect(() => {
     queryClientRef.current = queryClient
   }, [queryClient])
@@ -86,14 +86,17 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
       }
     ) => {
       // Обновляем кэш TanStack Query через ref
-      queryClientRef.current.setQueryData<Anomaly[]>(ANOMALIES_QUERY_KEY, (old) => {
-        if (!old) return old
-        return old.map((anomaly) =>
-          anomaly.id === event.anomalyId
-            ? { ...anomaly, threatLevel: event.newThreatLevel }
-            : anomaly
-        )
-      })
+      queryClientRef.current.setQueryData<Anomaly[]>(
+        ANOMALIES_QUERY_KEY,
+        (old) => {
+          if (!old) return old
+          return old.map((anomaly) =>
+            anomaly.id === event.anomalyId
+              ? { ...anomaly, threatLevel: event.newThreatLevel }
+              : anomaly
+          )
+        }
+      )
 
       // Вызываем callback, если передан (через ref)
       onThreatLevelChangeRef.current?.(event)
@@ -161,7 +164,9 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
                 handleThreatLevelChange({
                   ...validatedBase.data,
                   anomalyName: data.anomalyName as string | undefined,
-                  previousThreatLevel: data.previousThreatLevel as ThreatLevel | undefined,
+                  previousThreatLevel: data.previousThreatLevel as
+                    | ThreatLevel
+                    | undefined,
                 })
               }
             }
@@ -172,7 +177,7 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
 
         eventSource.onerror = () => {
           if (!isMounted) return
-          
+
           // Закрываем соединение
           eventSource.close()
           localEventSource = null
@@ -202,20 +207,20 @@ export function useAnomalyStream(options: UseAnomalyStreamOptions = {}) {
     // Очистка при размонтировании
     return () => {
       isMounted = false
-      
+
       if (localReconnectTimeout) {
         clearTimeout(localReconnectTimeout)
       }
-      
+
       if (localEventSource) {
         localEventSource.close()
       }
-      
+
       eventSourceRef.current = null
       reconnectTimeoutRef.current = null
       setIsConnected(false)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled, reconnectDelay, maxReconnectAttempts])
 
   return {
