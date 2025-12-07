@@ -10,7 +10,7 @@ import {
   ThreatLevelChangeEvent,
   threatLevelChangeEventSchema,
 } from '@shared/types'
-import { ANOMALIES_QUERY_KEY } from '@features/capture-anomaly'
+import { ANOMALIES_QUERY_KEY } from '@shared/config'
 
 /**
  * Тип SSE события от сервера

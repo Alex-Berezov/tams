@@ -3,10 +3,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { get } from '@shared/api'
 import { AnomalyCard } from '@entities/anomaly'
-import {
-  useCaptureAnomaly,
-  ANOMALIES_QUERY_KEY,
-} from '@features/capture-anomaly'
+import { useCaptureAnomaly } from '@features/capture-anomaly'
+import { ANOMALIES_QUERY_KEY } from '@shared/config'
 import { Button } from '@shared/ui'
 import { Anomaly, anomaliesArraySchema } from '@shared/types'
 import styles from './AnomalyList.module.scss'

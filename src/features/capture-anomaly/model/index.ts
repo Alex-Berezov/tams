@@ -11,11 +11,10 @@ import {
   CaptureAnomalyResponse,
   captureAnomalyResponseSchema,
 } from '@shared/types'
+import { ANOMALIES_QUERY_KEY } from '@shared/config'
 
-/**
- * Query key для списка аномалий
- */
-export const ANOMALIES_QUERY_KEY = ['anomalies'] as const
+// Re-export для обратной совместимости
+export { ANOMALIES_QUERY_KEY }
 
 /**
  * API функция для захвата духа
